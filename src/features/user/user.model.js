@@ -31,7 +31,7 @@ export default class UserModel {
 
     //get a user using id
     static get(userID) {
-        const user = users.find(u => u.id === userID);
+        const user = users.find(u => u.id === parseInt(userID));
         return user;
     }
 }

@@ -19,6 +19,7 @@
 	},
 	"homepage": "https://github.com/tanmaygupta07/PostAway_API#readme",
 	"dependencies": {
-		"express": "^4.21.0"
+		"express": "^4.21.0",
+		"moment": "^2.30.1"
 	}
 }

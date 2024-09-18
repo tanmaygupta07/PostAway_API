@@ -1,4 +1,5 @@
 import UserModel from "../user/user.model";
+import momemt from 'moment';
 
 export default class PostModel {
     constructor(id, userID, caption, imageURL) {
@@ -6,7 +7,7 @@ export default class PostModel {
         this.userID = userID;
         this.caption = caption;
         this.imageURL = imageURL;
-        this.timestamp = new Date().toLocaleString();;
+        this.timestamp = momemt().format("DD MMM YYYY hh:mm A");
     }
 
     //retreive all the posts

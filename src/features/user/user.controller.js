@@ -35,6 +35,6 @@ export default class UserController {
             return res.status(404).send({ message: "User Not Found!" })
         }
 
-        return res.status(200).send({ userData, user });
+        return res.status(200).send({ userData: user });
     }
 }

@@ -1,10 +1,10 @@
 export default class UserModel {
 
     constructor(name, email, password, id) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.id = id;
     }
 
     //Adding a user(signup)

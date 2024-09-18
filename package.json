@@ -1,0 +1,24 @@
+{
+	"name": "PostAway_API",
+	"version": "1.0.0",
+	"description": "Backend API of a Social Media App",
+	"main": "server.js",
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "nodemon server.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/tanmaygupta07/PostAway_API.git"
+	},
+	"author": "Tanmay Gupta",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/tanmaygupta07/PostAway_API/issues"
+	},
+	"homepage": "https://github.com/tanmaygupta07/PostAway_API#readme",
+	"dependencies": {
+		"express": "^4.21.0"
+	}
+}

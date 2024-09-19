@@ -1,5 +1,6 @@
-import UserModel from "../user/user.model";
-import PostModel from "./post.model";
+import moment from "moment";
+import UserModel from "../user/user.model.js";
+import PostModel from "./post.model.js";
 
 export default class PostController {
 
@@ -12,18 +13,22 @@ export default class PostController {
     //get a post by it's id
     getByID = (req, res) => {
         const { id } = req.params;
+        console.log(id);
         const post = PostModel.getByID(id);
         if (!post) {
             return res.status(404).send({ message: "Post not found" });
         }
+
+        return res.status(200).send({ post: post })
     }
 
     //get a post by user
     getByUser = (req, res) => {
         const { email, password } = req.body;
+
         const posts = PostModel.getByUser(email, password);
 
-        if (posts.length === 0) {
+        if (!posts || posts.length === 0) {
             return res.status(404).send({ message: "No Posts found!" })
         }
         return res.status(200).send({ posts: posts });
@@ -54,7 +59,7 @@ export default class PostController {
         const { userID } = req.body;
 
         if (!postID || !userID) {
-            return res.send(400).send({ message: "Please Provide both userID and postID" });
+            return res.status(400).send({ message: "Please Provide both userID and postID" });
         }
 
         const deletedPost = PostModel.delete(postID, userID);
@@ -68,13 +73,13 @@ export default class PostController {
 
     //update a existing post
     update = (req, res) => {
-        const { id, userID, caption, imageURL } = req.body;
+        const { id, userID, caption, imageURL, timestamp } = req.body;
 
         if (!id || !userID || !caption || !imageURL) {
             return res.status(400).send({ message: "Data missing" });
         }
 
-        const postObj = { id, userID, caption, imageURL }
+        const postObj = { id, userID, caption, imageURL, timestamp: moment().format("DD MMM YYYY hh:mm A") }
 
         const updatedPost = PostModel.update(postObj);
 

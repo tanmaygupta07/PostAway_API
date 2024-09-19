@@ -1,4 +1,4 @@
-import UserModel from "../user/user.model";
+import UserModel from "../user/user.model.js";
 import momemt from 'moment';
 
 export default class PostModel {
@@ -67,6 +67,7 @@ export default class PostModel {
     }
 }
 
+//pre-defined posts
 let posts = [
     {
         id: 1,

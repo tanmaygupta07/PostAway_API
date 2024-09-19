@@ -53,6 +53,7 @@ export default class PostModel {
         }
     }
 
+    //update a post
     static update(postObj) {
         const index = posts.findIndex(p => p.id === postObj.id && p.userID === postObj.userID);
 

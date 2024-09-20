@@ -73,7 +73,7 @@ export default class PostController {
 
     //update a existing post
     update = (req, res) => {
-        const { id, userID, caption, imageURL, timestamp } = req.body;
+        const { id, userID, caption, imageURL } = req.body;
 
         if (!id || !userID || !caption || !imageURL) {
             return res.status(400).send({ message: "Data missing" });

@@ -14,7 +14,6 @@ export default class PostController {
     //get a post by it's id
     getByID = (req, res) => {
         const { id } = req.params;
-        console.log(id);
         const post = PostModel.getByID(id);
         if (!post) {
             throw new ApplicationError("Post not found", 404)
@@ -37,8 +36,9 @@ export default class PostController {
 
     //add a new post
     addPost = (req, res) => {
-        const { userID, caption, imageURL } = req.body;
-        if (!userID || !caption || !imageURL) {
+        const { userID, caption } = req.body;
+        const image = req.file;
+        if (!userID || !caption || !image) {
             throw new ApplicationError("Data Missing", 400);
         }
 
@@ -47,7 +47,8 @@ export default class PostController {
             throw new ApplicationError("User not found!", 404);
         }
 
-        const newPost = PostModel.addPost(userID, caption, imageURL);
+        const imageName = image.filename;
+        const newPost = PostModel.addPost(userID, caption, imageName);
         return res.status(201).send({ message: "Post created successfully!", post: newPost })
     }
 
@@ -70,13 +71,16 @@ export default class PostController {
 
     //update a existing post
     update = (req, res) => {
-        const { id, userID, caption, imageURL } = req.body;
+        const { id, userID, caption } = req.body;
+        const image = req.file;
 
-        if (!id || !userID || !caption || !imageURL) {
+        if (!id || !userID || !caption || !image) {
             throw new ApplicationError("Data Missing", 400);
         }
 
-        const postObj = { id, userID, caption, imageURL, timestamp: moment().format("DD MMM YYYY hh:mm A") }
+        const imageName = image.filename;
+        const postObj = { id: parseInt(id), userID, caption, imageName, timestamp: moment().format("DD MMM YYYY hh:mm A") };
+
 
         const updatedPost = PostModel.update(postObj);
         if (!updatedPost) {

@@ -2,11 +2,11 @@ import UserModel from "../user/user.model.js";
 import momemt from 'moment';
 
 export default class PostModel {
-    constructor(id, userID, caption, imageURL) {
+    constructor(id, userID, caption, image) {
         this.id = id;
         this.userID = userID;
         this.caption = caption;
-        this.imageURL = imageURL;
+        this.image = image;
         this.timestamp = momemt().format("DD MMM YYYY hh:mm A");
     }
 
@@ -33,8 +33,8 @@ export default class PostModel {
     }
 
     // add a new post
-    static addPost(userID, caption, imageURL) {
-        const newPost = new PostModel(posts.length + 1, userID, caption, imageURL);
+    static addPost(userID, caption, image) {
+        const newPost = new PostModel(posts.length + 1, userID, caption, image);
         posts.push(newPost);
         return newPost;
     }
@@ -55,7 +55,7 @@ export default class PostModel {
 
     //update a post
     static update(postObj) {
-        const index = posts.findIndex(p => p.id === postObj.id && p.userID === postObj.userID);
+        const index = posts.findIndex(p => p.id === parseInt(postObj.id) && p.userID === parseInt(postObj.userID));
 
         if (index === -1) {
             return null;
@@ -73,14 +73,14 @@ let posts = [
         id: 1,
         userID: 1,
         caption: "Summary of the book Atomic Habits",
-        imageURL: "https://5.imimg.com/data5/SELLER/Default/2022/10/GB/ES/KH/162021231/atomic-habits-business-book.jpg",
+        image: "https://5.imimg.com/data5/SELLER/Default/2022/10/GB/ES/KH/162021231/atomic-habits-business-book.jpg",
         timestamp: "30 Aug 2024 08:15 PM"
     },
     {
         id: 2,
         userID: 2,
         caption: "Impact of AI on Healthcare System",
-        imageURL: "https://mobisoftinfotech.com/resources/wp-content/uploads/2022/04/og-ai-in-healthcare.png",
+        image: "https://mobisoftinfotech.com/resources/wp-content/uploads/2022/04/og-ai-in-healthcare.png",
         timestamp: "30 Aug 2024 08:15 PM"
     }
 ]

@@ -1,6 +1,7 @@
 import moment from "moment";
 import UserModel from "../user/user.model.js";
 import PostModel from "./post.model.js";
+import { ApplicationError } from "../../errorHandler/applicationError.js";
 
 export default class PostController {
 
@@ -16,7 +17,7 @@ export default class PostController {
         console.log(id);
         const post = PostModel.getByID(id);
         if (!post) {
-            return res.status(404).send({ message: "Post not found" });
+            throw new ApplicationError("Post not found", 404)
         }
 
         return res.status(200).send({ post: post })
@@ -29,7 +30,7 @@ export default class PostController {
         const posts = PostModel.getByUser(email, password);
 
         if (!posts || posts.length === 0) {
-            return res.status(404).send({ message: "No Posts found!" })
+            throw new ApplicationError("No Posts found!", 404);
         }
         return res.status(200).send({ posts: posts });
     }
@@ -37,19 +38,16 @@ export default class PostController {
     //add a new post
     addPost = (req, res) => {
         const { userID, caption, imageURL } = req.body;
-
         if (!userID || !caption || !imageURL) {
-            return res.status(400).send({ message: "Please provide all the required fields: userID, caption and imageURL" });
+            throw new ApplicationError("Data Missing", 400);
         }
 
         const user = UserModel.get(userID);
-
         if (!user) {
-            return res.status(404).send({ message: "User not found!" });
+            throw new ApplicationError("User not found!", 404);
         }
 
         const newPost = PostModel.addPost(userID, caption, imageURL);
-
         return res.status(201).send({ message: "Post created successfully!", post: newPost })
     }
 
@@ -59,13 +57,12 @@ export default class PostController {
         const { userID } = req.body;
 
         if (!postID || !userID) {
-            return res.status(400).send({ message: "Please Provide both userID and postID" });
+            throw new ApplicationError("Data Missing", 400);
         }
 
         const deletedPost = PostModel.delete(postID, userID);
-
         if (!deletedPost) {
-            return res.status(404).send({ message: "Post not found or user not authorized" });
+            throw new ApplicationError("Post not found or user not authorized", 404);
         }
 
         return res.status(200).send({ message: "Post deleted successfully", post: deletedPost })
@@ -76,15 +73,14 @@ export default class PostController {
         const { id, userID, caption, imageURL } = req.body;
 
         if (!id || !userID || !caption || !imageURL) {
-            return res.status(400).send({ message: "Data missing" });
+            throw new ApplicationError("Data Missing", 400);
         }
 
         const postObj = { id, userID, caption, imageURL, timestamp: moment().format("DD MMM YYYY hh:mm A") }
 
         const updatedPost = PostModel.update(postObj);
-
         if (!updatedPost) {
-            return res.status(404).send({ message: "Post not found or user unauthorized to update the post" });
+            throw new ApplicationError("Post not found or user unauthorized to update the post", 404);
         }
 
         return res.status(200).send({ message: "Post updated successfully", updatedPost: updatedPost })

@@ -1,3 +1,4 @@
+import { ApplicationError } from "../../errorHandler/applicationError.js";
 import PostModel from "../post/post.model.js";
 import UserModel from "../user/user.model.js";
 import LikeModel from "./like.model.js";
@@ -10,12 +11,12 @@ export default class LikeController {
 
         const postExists = PostModel.getByID(postID);
         if (!postExists) {
-            return res.status(404).send({ message: "Post not found for this ID" })
+            throw new ApplicationError("Post not found for this ID", 404);
         }
 
         const like = LikeModel.getAll(postID);
         if (like.length <= 0) {
-            return res.status(404).send({ message: "No likes found for this Post" })
+            throw new ApplicationError("No likes found for this Post", 404);
         }
 
         return res.status(200).send({ likes: like })
@@ -28,12 +29,12 @@ export default class LikeController {
 
         const postExists = PostModel.getByID(postID);
         if (!postExists) {
-            return res.status(404).send({ message: "Post Not Found for this id" });
+            throw new ApplicationError("Post not found for this ID", 404);
         }
 
         const userExists = UserModel.get(userID);
         if (!userExists) {
-            return res.status(404).send({ message: "User not found" });
+            throw new ApplicationError("User Not Found", 404);
         }
 
         const isLiked = LikeModel.findByUserAndPost(userID, postID);
@@ -44,7 +45,7 @@ export default class LikeController {
         else {
             const addLike = LikeModel.add(userID, postID);
             if (addLike.error) {
-                return res.status(400).send({ message: addLike.error });
+                throw new ApplicationError(addLike.error, 400);
             }
 
             return res.status(200).send({ message: "Successfully added like", addedLike: addLike })

@@ -1,3 +1,5 @@
+import { ApplicationError } from "../../errorHandler/applicationError.js";
+
 let currentID = 3;
 
 export default class LikeModel {
@@ -23,7 +25,7 @@ export default class LikeModel {
         const existingLike = this.findByUserAndPost(userID, parseInt(postID));
 
         if (existingLike) {
-            return { error: "Like already exists" };
+            throw new ApplicationError("Like already exists", 400);
         }
 
         currentID += 1;

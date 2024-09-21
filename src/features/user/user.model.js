@@ -1,3 +1,5 @@
+import { ApplicationError } from "../../errorHandler/applicationError.js";
+
 export default class UserModel {
 
     constructor(name, email, password, id) {
@@ -18,7 +20,7 @@ export default class UserModel {
     static signin(email, password) {
         const user = users.find(u => u.email === email && u.password === password);
         if (!user) {
-            throw new Error("User not found");
+            throw new ApplicationError("User not found", 404);
         }
 
         return user;

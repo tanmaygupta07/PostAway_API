@@ -1,3 +1,4 @@
+import { ApplicationError } from "../../errorHandler/applicationError.js";
 import UserModel from "./user.model.js";
 
 export default class UserController {
@@ -15,7 +16,7 @@ export default class UserController {
         const user = UserModel.signin(email, password);
 
         if (!user) {
-            return res.status(400).send({ error: "Incorrect Credentials" });
+            throw new ApplicationError("Incorrect credentials", 400);
         }
         else {
             return res.status(200).send({ message: "Logged In Successfully", userData: user })
@@ -32,7 +33,7 @@ export default class UserController {
         const user = UserModel.get(userID);
 
         if (!user) {
-            return res.status(404).send({ message: "User Not Found!" })
+            throw new ApplicationError("User not found!", 404);
         }
 
         return res.status(200).send({ userData: user });

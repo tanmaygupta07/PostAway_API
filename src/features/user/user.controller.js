@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import { ApplicationError } from "../../errorHandler/applicationError.js";
 import UserModel from "./user.model.js";
 
@@ -19,7 +20,8 @@ export default class UserController {
             throw new ApplicationError("Incorrect credentials", 400);
         }
         else {
-            return res.status(200).send({ message: "Logged In Successfully", userData: user })
+            const token = jwt.sign({ userID: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' })
+            return res.status(200).send(token)
         }
     }
 
@@ -29,7 +31,7 @@ export default class UserController {
     }
 
     get = (req, res) => {
-        const { userID } = req.params;
+        const  userID  = req.userID;
         const user = UserModel.get(userID);
 
         if (!user) {

@@ -24,27 +24,25 @@ export default class PostController {
 
     //get a post by user
     getByUser = (req, res) => {
-        const { email, password } = req.body;
+        const userID = req.userID;
 
-        const posts = PostModel.getByUser(email, password);
+        const posts = PostModel.getByUser(userID);
 
         if (!posts || posts.length === 0) {
-            throw new ApplicationError("No Posts found!", 404);
+            throw new ApplicationError("No posts found for this user!", 404);
         }
-        return res.status(200).send({ posts: posts });
+
+        return res.status(200).send({ posts });
     }
 
     //add a new post
     addPost = (req, res) => {
-        const { userID, caption } = req.body;
+        const { caption } = req.body;
         const image = req.file;
-        if (!userID || !caption || !image) {
-            throw new ApplicationError("Data Missing", 400);
-        }
+        const userID = req.userID;
 
-        const user = UserModel.get(userID);
-        if (!user) {
-            throw new ApplicationError("User not found!", 404);
+        if (!caption || !image) {
+            throw new ApplicationError("Data Missing", 400);
         }
 
         const imageName = image.filename;
@@ -55,9 +53,9 @@ export default class PostController {
     //delete an existing post
     delete = (req, res) => {
         const { postID } = req.params;
-        const { userID } = req.body;
+        const userID = req.userID;
 
-        if (!postID || !userID) {
+        if (!postID) {
             throw new ApplicationError("Data Missing", 400);
         }
 
@@ -71,16 +69,17 @@ export default class PostController {
 
     //update a existing post
     update = (req, res) => {
-        const { id, userID, caption } = req.body;
+        const { id } = req.params;
+        const { caption } = req.body;
         const image = req.file;
+        const userID = req.userID;
 
-        if (!id || !userID || !caption || !image) {
+        if (!id || !caption || !image) {
             throw new ApplicationError("Data Missing", 400);
         }
 
         const imageName = image.filename;
         const postObj = { id: parseInt(id), userID, caption, imageName, timestamp: moment().format("DD MMM YYYY hh:mm A") };
-
 
         const updatedPost = PostModel.update(postObj);
         if (!updatedPost) {

@@ -4,7 +4,9 @@ import postRouter from './src/features/post/post.routes.js';
 import commentRouter from './src/features/comment/comment.routes.js';
 import likeRouter from './src/features/like/like.routes.js';
 import { ApplicationError } from './src/errorHandler/applicationError.js';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const app = express();
 
 app.use(express.json());

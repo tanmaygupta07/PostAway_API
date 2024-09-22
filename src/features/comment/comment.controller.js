@@ -1,4 +1,5 @@
 import { ApplicationError } from "../../errorHandler/applicationError.js";
+import PostModel from "../post/post.model.js";
 import UserModel from "../user/user.model.js";
 import CommentModel from "./comment.model.js"
 
@@ -7,8 +8,13 @@ export default class CommentController {
     //get all the comments of a specific post
     getAll = (req, res) => {
         const { postID } = req.params;
-        const comments = CommentModel.getAll(postID);
 
+        const post = PostModel.getByID(postID);
+        if (!post) {
+            throw new ApplicationError("Post not found!", 404);
+        }
+
+        const comments = CommentModel.getAll(postID);
         if (comments.length <= 0) {
             throw new ApplicationError("No comments found for this post", 404);
         }
@@ -18,10 +24,11 @@ export default class CommentController {
 
     //add a comment to a specific post
     add = (req, res) => {
-        const { userID, content } = req.body;
+        const { content } = req.body;
         const { postID } = req.params;
+        const userID = req.userID;
 
-        if (!userID || !postID || !content) {
+        if (!postID || !content) {
             throw new ApplicationError("Data Missing", 400);
         }
 
@@ -37,7 +44,7 @@ export default class CommentController {
     //delete a comment using its id
     delete = (req, res) => {
         const { commentID } = req.params;
-        const { userID } = req.body;
+        const userID = req.userID;
 
         const deletedComment = CommentModel.delete(commentID, userID);
         if (deletedComment === null) {
@@ -50,7 +57,8 @@ export default class CommentController {
     // update a comment using its id
     update = (req, res) => {
         const { commentID } = req.params;
-        const { userID, content } = req.body;
+        const { content } = req.body;
+        const userID = req.userID;
 
         const updatedComment = CommentModel.update(commentID, userID, content);
 

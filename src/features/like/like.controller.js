@@ -25,7 +25,7 @@ export default class LikeController {
     //toggle the like status of a post
     toggle = (req, res) => {
         const { postID } = req.params;
-        const { userID } = req.body;
+        const userID = req.userID;
 
         const postExists = PostModel.getByID(postID);
         if (!postExists) {

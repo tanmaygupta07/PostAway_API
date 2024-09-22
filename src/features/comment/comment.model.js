@@ -32,7 +32,7 @@ export default class CommentModel {
         }
 
         const comment = comments[commentIndex];
-        comments.splice(comment, 1);
+        comments.splice(commentIndex, 1);
         return comment;
     }
 

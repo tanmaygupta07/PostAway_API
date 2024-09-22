@@ -21,15 +21,10 @@ export default class PostModel {
         return post;
     }
 
-    //retrieve posts by user credentials
-    static getByUser(email, password) {
-        try {
-            const user = UserModel.signin(email, password);
-            const post = posts.filter(p => p.userID === user.id);
-            return post;
-        } catch (error) {
-            console.error(error.message)
-        }
+    //retrieve posts by user id
+    static getByUser(userID) {
+        const userPosts = posts.filter(p => p.userID === parseInt(userID));
+        return userPosts;
     }
 
     // add a new post

@@ -60,6 +60,11 @@ export default class PostModel {
             return posts[index];
         }
     }
+
+    //filter posts based on caption
+    static filterByCaption(caption) {
+        return posts.filter(p => p.caption.toLowerCase().includes(caption.toLowerCase()));
+    }
 }
 
 //pre-defined posts

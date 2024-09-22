@@ -88,4 +88,20 @@ export default class PostController {
 
         return res.status(200).send({ message: "Post updated successfully", updatedPost: updatedPost })
     }
+
+    //filter posts based on caption
+    filterByCaption = (req, res) => {
+        const { caption } = req.query;
+
+        if (!caption) {
+            throw new ApplicationError("Caption missing!", 400)
+        }
+
+        const filteredPosts = PostModel.filterByCaption(caption);
+        if (filteredPosts.length === 0) {
+            throw new ApplicationError("No posts found with the given caption", 404);
+        }
+
+        return res.status(200).send({ posts: filteredPosts });
+    }
 }

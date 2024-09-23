@@ -1,6 +1,6 @@
 # PostAway API
 
-PostAway is a backend API for managing user posts, comments, and likes, with additional features such as filtering posts, saving drafts, and archiving posts. The API is built using Node.js, Express.js, and MongoDB, and is hosted at [PostAway API](https://postaway-api.onrender.com/).
+PostAway is a backend API for managing user posts, comments, and likes, with additional features such as filtering posts, saving drafts, and archiving posts. The API is built using Node.js and Express.js.
 
 ## Features
 

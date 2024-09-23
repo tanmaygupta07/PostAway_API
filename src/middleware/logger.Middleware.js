@@ -1,6 +1,8 @@
 import winston from 'winston';
 import os from 'os';
 
+// a winston logger to log request info at 'info' level in JSON format and saving logs to 'logs.txt'.
+
 const logger = winston.createLogger({
     level: 'info',
     format: winston.format.json(),
@@ -10,6 +12,7 @@ const logger = winston.createLogger({
     ]
 });
 
+//middlware to log the request
 const loggerMiddleware = async (req, res, next) => {
     const newLine = os.EOL
     if (!req.url.includes('signin') && !req.url.includes('signup')) {

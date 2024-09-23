@@ -25,11 +25,13 @@ export default class UserController {
         }
     }
 
+    //get all the users
     getAll = (req, res) => {
         const users = UserModel.getAll();
         return res.status(200).send({ userData: users });
     }
 
+    //get a user by it's id
     get = (req, res) => {
         const  userID  = req.userID;
         const user = UserModel.get(userID);
